@@ -1,0 +1,14 @@
+version: "1.0"
+services:
+  docker-task:
+    image: docker-task
+    environment:
+      - TEST_SUITE = api
+    volumes:
+      - target:/docker-task/target
+    build:
+      context: .
+      dockerfile: Dockerfile
+volumes:
+  target:
+    driver: local

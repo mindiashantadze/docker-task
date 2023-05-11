@@ -1,14 +1,23 @@
 version: "1.0"
 services:
-  docker-task:
-    image: docker-task
-    environment:
-      - TEST_SUITE = api
+  selenoid:
+    network_mode: bridge
+    image: aerokube/selenoid:1.10.11
+    container_name: selenoid
     volumes:
-      - target:/docker-task/target
-    build:
-      context: .
-      dockerfile: Dockerfile
+      - ./browsers.json:/etc/selenoid/browsers.json
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "4444:4444"
+  selenoid-ui:
+    image: aerokube/selenoid-ui:1.10.9
+    network_mode: bridge
+    links:
+      - selenoid
+    container_name: selenoid-ui
+    ports:
+      - "8080:8080"
+    command: ["--selenoid-uri", "http://selenoid:4444"]
 volumes:
   target:
     driver: local

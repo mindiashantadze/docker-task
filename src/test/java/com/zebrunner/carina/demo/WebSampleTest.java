@@ -92,7 +92,6 @@ public class WebSampleTest implements IAbstractTest {
             softAssert.assertEquals(specs.get(2).readSpec(ModelSpecs.SpecType.ANNOUNCED), "2017, June");
             softAssert.assertEquals(specs.get(2).readSpec(ModelSpecs.SpecType.TECHNOLOGY), "GSM / HSPA / LTE");
         }
-
         softAssert.assertAll();
     }
 

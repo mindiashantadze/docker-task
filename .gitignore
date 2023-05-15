@@ -9,6 +9,7 @@
 /reports
 /target
 /test-output
+/config/video
 /.classpath
 /sql.log
 /application.log

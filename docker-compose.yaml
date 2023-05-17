@@ -1,13 +1,6 @@
 version: "1.0"
 services:
-  ggr:
-    image: aerokube/ggr:latest-release
-    container_name: ggr
-    network_mode: bridge
-    volumes:
-      - /etc/grid-router/:/etc/grid-router:ro
   selenoid:
-    network_mode: bridge
     image: aerokube/selenoid:1.10.11
     container_name: selenoid
     volumes:
@@ -19,6 +12,7 @@ services:
       - OVERRIDE_VIDEO_OUTPUT_DIR=$PWD/config/video
     ports:
       - "4444:4444"
+    network_mode: bridge
   selenoid-ui:
     image: aerokube/selenoid-ui:1.10.9
     network_mode: bridge
@@ -28,6 +22,24 @@ services:
     ports:
       - "8080:8080"
     command: ["--selenoid-uri", "http://selenoid:4444"]
+  ggr:
+    image: aerokube/ggr:latest-release
+    container_name: ggr
+    network_mode: bridge
+    ports:
+      - "3000:3000"
+    volumes:
+      - $PWD/config/:/etc/grid-router:ro
+      - "./ggr-data:/usr/share/ggr"
+  docker-task:
+    image: docker-task
+    environment:
+      - TEST_SUITE = ${TEST_SUITE}
+    volumes:
+      - target:/docker-task/target
+    build:
+        context: .
+        dockerfile: Dockerfile
 volumes:
   target:
     driver: local

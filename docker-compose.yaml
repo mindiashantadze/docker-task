@@ -20,7 +20,7 @@ services:
       - selenoid
     container_name: selenoid-ui
     ports:
-      - "8080:8080"
+      - "8081:8081"
     command: ["--selenoid-uri", "http://selenoid:4444"]
   ggr:
     image: aerokube/ggr:latest-release
